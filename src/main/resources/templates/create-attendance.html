@@ -53,50 +53,47 @@
     </div>
 </nav>
 
-<form action="#" th:action="@{/ui/schedule/update/{number}/{time}/{day}/(number=${schedule.group.number},
-    time=${schedule.time}, day=${schedule.day})}" th:object="${schedule}" method="post">
+<form action="#" th:action="@{/ui/attendance/create}" th:object="${attendance}" method="post">
     <div class="form-group row">
-        <label for="group">Group</label>
+        <label for="student">Student</label>
         <div class="col-sm-10">
-            <select id="group" required disabled >
-                <option  th:utext="${schedule.group.number}"></option>
+            <select th:field="*{student}" id="student" required>
+                <option th:each="student : ${students}" th:value="${student.id}"
+                        th:utext="${student?.group.number}+ ' ' + ${student.name}"></option>
             </select>
-            <input type="text" th:field="*{group}" th:value="${schedule.group.id}" readonly hidden >
-
         </div>
-        <label for="teaching">Teaching</label>
+        <label for="schedule">Schedule</label>
         <div class="col-sm-10">
-            <select th:field="*{teaching}" id="teaching" required>
-                <option th:each="teaching : ${teachings}" th:value="${teaching.id}"
-                        th:utext="${teaching?.subject?.name} + ' ' + ${teaching?.teacher?.name}"></option>
+            <select th:field="*{schedule}" id="schedule" required>
+                <option
+                        th:each="schedule : ${schedules}"
+                        th:if="${schedule.}"
+                        th:value="${schedule.id}"
+                        th:utext="${schedule?.subject?.name} + ' ' + ${teaching?.teacher?.name}"></option >
             </select>
-
         </div>
         <label for="day">Day</label>
         <div class="col-sm-10">
-            <select id="day" required disabled >
-                <option th:if="${schedule.day} == 0" >Понеділок</option>
-                <option th:if="${schedule.day} == 1" >Вівторок</option>
-                <option th:if="${schedule.day} == 2" >Середа</option>
-                <option th:if="${schedule.day} == 3" >Четвер</option>
-                <option th:if="${schedule.day} == 4" >П'ятниця</option>
+            <select th:field="*{day}" id="day" required>
+                <option th:value="0">Понеділок</option>
+                <option th:value="1">Вівторок</option>
+                <option th:value="2">Середа</option>
+                <option th:value="3">Четвер</option>
+                <option th:value="4" >П'ятниця</option>
             </select>
-            <input type="text" th:field="*{day}" th:value="${schedule.day}" readonly hidden >
         </div>
         <label for="time">Time</label>
         <div class="col-sm-10">
-            <select id="time" required disabled >
-                <option th:if="${schedule.time} == 0" >8:20-9:40</option>
-                <option th:if="${schedule.time} == 1" >9:50-11:10</option>
-                <option th:if="${schedule.time} == 2" >11:30-12:50</option>
-                <option th:if="${schedule.time} == 3" >13:00-14:20</option>
-                <option th:if="${schedule.time} == 4" >14:40-16:00</option>
-                <option th:if="${schedule.time} == 5" >16:10-17:30</option>
-                <option th:if="${schedule.time} == 6" >17:40-19:00</option>
-                <option th:if="${schedule.time} == 7" >19:10-20:30</option>
-
+            <select th:field="*{time}" id="time" required>
+                <option th:value="0">8:20-9:40</option>
+                <option th:value="1">9:50-11:10</option>
+                <option th:value="2">11:30-12:50</option>
+                <option th:value="3">13:00-14:20</option>
+                <option th:value="4">14:40-16:00</option>
+                <option th:value="5">16:10-17:30</option>
+                <option th:value="6">17:40-19:00</option>
+                <option th:value="7">19:10-20:30</option>
             </select>
-            <input type="text" th:field="*{time}" th:value="${schedule.time}" readonly hidden >
         </div>
         <label for="type">Type</label>
         <div class="col-sm-10">

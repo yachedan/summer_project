@@ -3,6 +3,8 @@ package com.summer.project.repo;
 import com.summer.project.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /*
     @author user
     @project summer_project
@@ -11,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
     @since 8/20/2021 - 20.29
 */
 public interface StudentRepository extends JpaRepository<Student, Long> {
-
+    List<Student> findAllByGroupNumber(String number);
 }
