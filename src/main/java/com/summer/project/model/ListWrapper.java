@@ -11,13 +11,13 @@ import java.util.List;
 */
 
 public class ListWrapper {
-    Attendance[][] tempAttendanceArray;
+    Journal[][] tempJournalArray;
 
-    public Attendance[][] getTempAttendanceArray() {
-        return tempAttendanceArray;
+    public Journal[][] getTempJournalArray() {
+        return tempJournalArray;
     }
 
-    public void setTempAttendanceArray(Attendance[][] tempAttendanceArray) {
-        this.tempAttendanceArray = tempAttendanceArray;
+    public void setTempJournalArray(Journal[][] tempJournalArray) {
+        this.tempJournalArray = tempJournalArray;
     }
 }

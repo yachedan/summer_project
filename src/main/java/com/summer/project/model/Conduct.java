@@ -12,23 +12,20 @@ import java.time.LocalDateTime;
 /*
     @author user
     @project summer_project
-    @class Attendance
+    @class Conduct
     @version 1.0.0
-    @since 8/26/2021 - 20.14
+    @since 8/31/2021 - 18.56
 */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Attendance {
+public class Conduct {
     @Id
-    @Column(name="attendance_id")
+    @Column(name="conduct_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean attended;
+    private boolean conducted;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
-    @OneToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
     @OneToOne
     @JoinColumn(name = "schedule_id", nullable = false)
     private Schedule schedule;
@@ -38,23 +35,21 @@ public class Attendance {
     @LastModifiedDate
     private LocalDateTime modified_at;
 
-    public Attendance() {
+    public Conduct() {
     }
 
-    public Attendance(boolean attended, LocalDate date, Student student, Schedule schedule, LocalDateTime created_at, LocalDateTime modified_at) {
-        this.attended = attended;
+    public Conduct(boolean conducted, LocalDate date, Schedule schedule, LocalDateTime created_at, LocalDateTime modified_at) {
+        this.conducted = conducted;
         this.date = date;
-        this.student = student;
         this.schedule = schedule;
         this.created_at = created_at;
         this.modified_at = modified_at;
     }
 
-    public Attendance(Long id, boolean attended, LocalDate date, Student student, Schedule schedule, LocalDateTime created_at, LocalDateTime modified_at) {
+    public Conduct(Long id, boolean conducted, LocalDate date, Schedule schedule, LocalDateTime created_at, LocalDateTime modified_at) {
         this.id = id;
-        this.attended = attended;
+        this.conducted = conducted;
         this.date = date;
-        this.student = student;
         this.schedule = schedule;
         this.created_at = created_at;
         this.modified_at = modified_at;
@@ -68,12 +63,12 @@ public class Attendance {
         this.id = id;
     }
 
-    public boolean isAttended() {
-        return attended;
+    public boolean isConducted() {
+        return conducted;
     }
 
-    public void setAttended(boolean attended) {
-        this.attended = attended;
+    public void setConducted(boolean conducted) {
+        this.conducted = conducted;
     }
 
     public LocalDate getDate() {
@@ -82,14 +77,6 @@ public class Attendance {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
     }
 
     public Schedule getSchedule() {
@@ -112,7 +99,7 @@ public class Attendance {
         return modified_at;
     }
 
-    public void setModified_at(LocalDateTime modifiedAt) {
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modified_at = modifiedAt;
     }
 }

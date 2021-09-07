@@ -50,9 +50,9 @@ public class ScheduleUIController {
         model.addAttribute("entries",scheduleService.getAll(PageRequest.of(page,size)));
         return "get-schedule";
     }
-    @GetMapping("/get/{number}")
-    public String getEntriesByGroup(@PathVariable("number")String number, HttpServletRequest request, Model model){
-        List<Schedule> entries = scheduleService.getByGroup(number);
+    @GetMapping("/get/{groupId}")
+    public String getEntriesByGroup(@PathVariable("groupId")Long groupId, HttpServletRequest request, Model model){
+        List<Schedule> entries = scheduleService.getByGroup(groupId);
         Group group = entries.get(0).getGroup();
         Schedule[][] array = new Schedule[9][5];
         for(int i=0; i<9; i++)
@@ -98,8 +98,8 @@ public class ScheduleUIController {
 
         return "update-schedule";
     }
-    @GetMapping("/update/{number}/{time}/{day}/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id,@PathVariable("number") String number,@PathVariable("time")
+    @GetMapping("/update/{groupId}/{time}/{day}/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id,@PathVariable("groupId") Long groupId,@PathVariable("time")
             int time, @PathVariable("day") int day, Model model) {
             Schedule schedule = scheduleService.getById(id);
         List<Teaching> teachings = teachingService.getAll();
@@ -108,8 +108,8 @@ public class ScheduleUIController {
         model.addAttribute("schedule",schedule);
         return "update-schedule-group";
     }
-    @PostMapping("/update/{number}/{time}/{day}/{id}")
-    public String updateSchedule(@PathVariable("id") Long id,@PathVariable("number") String number,
+    @PostMapping("/update/{groupId}/{time}/{day}/{id}")
+    public String updateSchedule(@PathVariable("id") Long id,@PathVariable("groupId") Long groupId,
                                  @PathVariable("time") int time, @PathVariable("day") int day, Schedule schedule,
                                  BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -118,12 +118,12 @@ public class ScheduleUIController {
         }
 
         scheduleService.update(schedule);
-        return "redirect:/ui/schedule/get/"+number;
+        return "redirect:/ui/schedule/get/"+groupId;
     }
-    @GetMapping("/update/{number}/{time}/{day}/")
-    public String showCreateForm(@PathVariable("number") String number,@PathVariable("time")
+    @GetMapping("/update/{groupId}/{time}/{day}/")
+    public String showCreateForm(@PathVariable("groupId") Long groupId,@PathVariable("time")
             int time, @PathVariable("day") int day, Model model) {
-        Group group = groupService.getByNumber(number);
+        Group group = groupService.getById(groupId);
         Schedule schedule = new Schedule();
         schedule.setId(null);
         schedule.setTime(time);
@@ -134,8 +134,8 @@ public class ScheduleUIController {
         model.addAttribute("teachings", teachings);
         return "create-schedule-group";
     }
-    @PostMapping("/update/{number}/{time}/{day}/")
-    public String createSchedule(@PathVariable("number") String number,
+    @PostMapping("/update/{groupId}/{time}/{day}/")
+    public String createSchedule(@PathVariable("groupId") Long groupId,
                                  @PathVariable("time") int time, @PathVariable("day") int day, Schedule schedule,
                                  BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -143,7 +143,7 @@ public class ScheduleUIController {
         }
 
         scheduleService.create(schedule);
-        return "redirect:/ui/schedule/get/"+number;
+        return "redirect:/ui/schedule/get/"+groupId;
     }
     @PostMapping("/update/{id}")
     public String updateSchedule(@PathVariable("id") Long id, Schedule schedule,
@@ -165,13 +165,13 @@ public class ScheduleUIController {
         scheduleService.delete(id);
         return "redirect:/ui/schedule/get/all";
     }
-    @GetMapping("/delete/{number}/{time}/{day}/{id}")
-    public String deleteScheduleGroup(@PathVariable("id") Long id,@PathVariable("number") String number,
+    @GetMapping("/delete/{groupId}/{time}/{day}/{id}")
+    public String deleteScheduleGroup(@PathVariable("id") Long id,@PathVariable("groupId") Long groupId,
                                       @PathVariable("time") int time, @PathVariable("day") int day, Model model) {
         Schedule schedule = scheduleService.getById(id);
         if(schedule == null)
             return ("Invalid schedule Id:"+id);
         scheduleService.delete(id);
-        return "redirect:/ui/schedule/get/"+number;
+        return "redirect:/ui/schedule/get/"+groupId;
     }
 }

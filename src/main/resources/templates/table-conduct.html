@@ -14,28 +14,55 @@
 <div th:switch="${entries}">
     <h2 th:case="null">Записи відсутні!</h2>
     <div th:case="*">
-        <h2 class="display-5">Викладають</h2>
+        <h2>Проведення</h2>
         <table class="table">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Викладач</th>
-                <th scope="col">Предмети</th>
+                <th scope="col">Проведено</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Розклад</th>
+                <th scope="col">Викладають</th>
+
                 <th scope="col">Редагувати</th>
                 <th scope="col">Видалити</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="teaching : ${entries}">
-                <td th:text="${teaching.id}" scope="row"></td>
-                <td th:text="${teaching?.teacher?.name}"></td>
-                <td th:text="${teaching?.subject?.name}"></td>
-                <td><a disabled="true" th:href="@{/ui/teaching/update/{id}(id=${teaching.id})}">
+            <tr th:each="conduct : ${entries}">
+                <td th:text="${conduct.id}" scope="row"></td>
+                <td th:text="${conduct.conducted}"></td>
+                <td th:text="${conduct.date}"></td>
+                <td>
+                    <span th:if="${conduct?.schedule?.day == 0}">Понеділок </span>
+                    <span th:if="${conduct?.schedule?.day == 1}">Вівторок </span>
+                    <span th:if="${conduct?.schedule?.day == 2}">Середа </span>
+                    <span th:if="${conduct?.schedule?.day == 3}">Четвер </span>
+                    <span th:if="${conduct?.schedule?.day == 4}">П'ятниця </span>
+
+                    <span th:if="${conduct?.schedule?.time == 0}">8:20-9:40</span>
+                    <span th:if="${conduct?.schedule?.time == 1}">9:50-11:10</span>
+                    <span th:if="${conduct?.schedule?.time == 2}">11:30-12:50</span>
+                    <span th:if="${conduct?.schedule?.time == 3}">13:00-14:20</span>
+                    <span th:if="${conduct?.schedule?.time == 4}">14:40-16:00</span>
+                    <span th:if="${conduct?.schedule?.time == 5}">16:10-17:30</span>
+                    <span th:if="${conduct?.schedule?.time == 6}">17:40-19:00</span>
+                    <span th:if="${conduct?.schedule?.time == 7}">19:10-20:30</span>
+                </td>
+                <td>
+                    <p th:text="${conduct?.schedule?.teaching?.subject.name} + ' '
+                    + ${conduct?.schedule?.teaching?.teacher.name}"></p>
+                </td>
+                <td><a disabled="true" th:href="@{/ui/conduct/table/{groupId}/{time}/{day}/{id}/update/{conductId}
+                (id=${conduct.schedule.id}, groupId=${conduct.schedule.group.id}, time=${conduct.schedule.time},
+                 day=${conduct.schedule.day}, conductId=${conduct.id})}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                     </svg>
                 </a></td>
-                <td><a th:href="@{/ui/teaching/delete/{id}(id=${teaching.id})}"
+                <td><a th:href="@{/ui/conduct/table/{groupId}/{time}/{day}/{id}/delete/{conductId}
+                (id=${conduct.schedule.id}, groupId=${conduct.schedule.group.id}, time=${conduct.schedule.time},
+                 day=${conduct.schedule.day}, conductId=${conduct.id})}"
                        th:onclick="return confirm('Are you sure?')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -46,7 +73,9 @@
             </tbody>
         </table>
     </div>
-    <p><a href="/ui/teaching/signup">
+    <p><a th:href="@{/ui/conduct/table/{groupId}/{time}/{day}/{id}/signup
+                (id=${id},groupId=${groupId}, time=${time},
+                 day=${day})}">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
         </svg>
@@ -55,19 +84,19 @@
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${entries.number eq 0} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/ui/teaching/get/all?page={id}(id=${entries.number lt 2 ? 1 : entries.number})}"
+                   th:href="@{/ui/conduct/get/all?page={id}(id=${entries.number lt 2 ? 1 : entries.number})}"
                    aria-label="Previous" title="Previous Page" data-toggle="tooltip">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${i eq entries.number + 1} ? 'active'"
                 th:each="i : ${#numbers.sequence( 1, entries.totalPages, 1)}">
-                <a class="page-link" th:href="@{/ui/teaching/get/all?page={id}(id=${i})}" th:text="${i}"
+                <a class="page-link" th:href="@{/ui/conduct/get/all?page={id}(id=${i})}" th:text="${i}"
                    th:title="${'Page '+ i}" data-toggle="tooltip"></a>
             </li>
             <li class="page-item" th:classappend="${entries.number + 1 eq entries.totalPages} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/ui/teaching/get/all?page={id}(id=${entries.number + 2})}"
+                   th:href="@{/ui/conduct/get/all?page={id}(id=${entries.number + 2})}"
                    aria-label="Next" title="Next Page" data-toggle="tooltip">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

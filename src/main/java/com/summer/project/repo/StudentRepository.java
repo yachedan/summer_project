@@ -13,5 +13,5 @@ import java.util.List;
     @since 8/20/2021 - 20.29
 */
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    List<Student> findAllByGroupNumber(String number);
+    List<Student> findAllByGroupId(Long id);
 }

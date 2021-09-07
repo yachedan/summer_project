@@ -11,20 +11,33 @@
 <body>
 <div th:replace="navbar :: navbar"></div>
 
-<div th:switch="${entries}">
-    <h2 th:case="null">No entries yet!</h2>
+<div >
+    <h2 class="display-6">Оберіть групу</h2>
+    <table class="table">
+        <thead>
+        <th>
+            Групи
+        </th>
+        </thead>
+        <tbody>
+            <tr th:each="group : ${groups}">
+            <td>
+                <a th:text="${group.number}" th:href="@{/ui/journal/get/{number}(number=${group.id})}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--<h2 th:case="null">No entries yet!</h2>
     <div th:case="*">
         <h2>Schedule</h2>
         <table class="table">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Group</th>
-                <th scope="col">Subject</th>
-                <th scope="col">Teacher</th>
-                <th scope="col">Day</th>
-                <th scope="col">Time</th>
-                <th scope="col">Type</th>
+                <th scope="col">Attended</th>
+                <th scope="col">Date</th>
+                <th scope="col">Student</th>
+                <th scope="col">Schedule</th>
                 <th scope="col">created_at</th>
                 <th scope="col">modified_at</th>
 
@@ -33,47 +46,49 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="schedule : ${entries}">
-                <td th:text="${schedule.id}" scope="row"></td>
-                <td th:text="${schedule?.group?.number}"></td>
-                <td th:text="${schedule?.teaching?.subject?.name}"></td>
-                <td th:text="${schedule?.teaching?.teacher?.name}"></td>
-                <td th:text="${schedule.day}" scope="row"></td>
-                <td th:text="${schedule.time}" scope="row"></td>
-                <td th:text="${schedule.type}" scope="row"></td>
-                <td th:text="${schedule.createdAt}" scope="row"></td>
-                <td th:text="${schedule.modifiedAt}" scope="row"></td>
-                <td><a disabled="true" th:href="@{/ui/schedule/update/{id}(id=${schedule.id})}">Edit</a></td>
-                <td><a th:href="@{/ui/schedule/delete/{id}(id=${schedule.id})}"
+            <tr th:each="journal : ${entries}">
+                <td th:text="${journal.id}" scope="row"></td>
+                <td th:text="${journal.attended}"></td>
+                <td th:text="${journal.date}"></td>
+                <td th:text="${journal?.student?.name}"></td>
+                <td>
+                    <p th:text="${journal?.schedule.day} + ' ' + ${journal?.schedule.time}"></p>
+                    <p th:text="${journal?.schedule?.teaching?.subject.name} + ' '
+                    + ${journal?.schedule?.teaching?.teacher.name}"></p>
+                </td>
+                <td th:text="${journal.createdAt}" scope="row"></td>
+                <td th:text="${journal.modifiedAt}" scope="row"></td>
+                <td><a disabled="true" th:href="@{/ui/journal/update/{id}(id=${journal.id})}">Edit</a></td>
+                <td><a th:href="@{/ui/journal/delete/{id}(id=${journal.id})}"
                        th:onclick="return confirm('Are you sure?')">Delete</a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/ui/schedule/signup">Add a new entry</a></p>
+    <p><a href="/ui/journal/signup">Add a new entry</a></p>
     <nav aria-label="Pagination" th:if="${entries.totalPages gt 0}">
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${entries.number eq 0} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/ui/schedule/get/all?page={id}(id=${entries.number lt 2 ? 1 : entries.number})}"
+                   th:href="@{/ui/journal/get/all?page={id}(id=${entries.number lt 2 ? 1 : entries.number})}"
                    aria-label="Previous" title="Previous Page" data-toggle="tooltip">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${i eq entries.number + 1} ? 'active'"
                 th:each="i : ${#numbers.sequence( 1, entries.totalPages, 1)}">
-                <a class="page-link" th:href="@{/ui/schedule/get/all?page={id}(id=${i})}" th:text="${i}"
+                <a class="page-link" th:href="@{/ui/journal/get/all?page={id}(id=${i})}" th:text="${i}"
                    th:title="${'Page '+ i}" data-toggle="tooltip"></a>
             </li>
             <li class="page-item" th:classappend="${entries.number + 1 eq entries.totalPages} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/ui/schedule/get/all?page={id}(id=${entries.number + 2})}"
+                   th:href="@{/ui/journal/get/all?page={id}(id=${entries.number + 2})}"
                    aria-label="Next" title="Next Page" data-toggle="tooltip">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav>-->
 
 </div>
 </body>

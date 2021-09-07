@@ -55,5 +55,5 @@ public class StudentService {
     public Page<Student> getAll(Pageable pageable){
         return repository.findAll(pageable);
     }
-    public List<Student> getAllByGroup(String number){return repository.findAllByGroupNumber(number);}
+    public List<Student> getAllByGroup(Long id){return repository.findAllByGroupId(id);}
 }

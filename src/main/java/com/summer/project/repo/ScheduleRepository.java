@@ -16,6 +16,6 @@ import java.util.List;
 */
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    public List<Schedule> findByGroupNumberOrderByTime(String number);
+    public List<Schedule> findByGroupIdOrderByTime(Long id);
 
 }

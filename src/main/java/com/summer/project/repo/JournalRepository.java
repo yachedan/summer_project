@@ -1,6 +1,6 @@
 package com.summer.project.repo;
 
-import com.summer.project.model.Attendance;
+import com.summer.project.model.Journal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,9 +18,9 @@ import java.util.List;
     @since 8/28/2021 - 11.43
 */
 @Repository
-public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
-    Page<Attendance> findAllByScheduleId(Long id, Pageable pageable);
+public interface JournalRepository extends JpaRepository<Journal, Long> {
+    Page<Journal> findAllByConductScheduleId(Long id, Pageable pageable);
 
-    Attendance findByStudentIdAndDate(Long id, LocalDate date);
-    void deleteAllByStudentGroupNumberAndDate(String number, LocalDate date);
+    Journal findByStudentIdAndConductDate(Long id, LocalDate date);
+    void deleteAllByStudentGroupNumberAndConductDate(String number, LocalDate date);
 }

@@ -48,5 +48,5 @@ public class ScheduleService {
     public Page<Schedule> getAll(Pageable pageable){
         return repository.findAll(pageable);
     }
-    public List<Schedule> getByGroup(String number){ return repository.findByGroupNumberOrderByTime(number);}
+    public List<Schedule> getByGroup(Long id){ return repository.findByGroupIdOrderByTime(id);}
 }

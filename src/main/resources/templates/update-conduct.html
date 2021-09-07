@@ -12,22 +12,32 @@
 <body>
 <div th:replace="navbar :: navbar"></div>
 
-<form action="#" th:action="@{/ui/teaching/create}" th:object="${teaching}" method="post">
+<form action="#" th:action="@{/ui/conduct/table/{groupId}/{time}/{day}/{scheduleId}/update/{conductId}
+                (scheduleId=${scheduleId}, groupId=${groupId}, time=${time},
+                 day=${day}, conductId=${conduct.id})}" th:object="${conduct}" method="post">
     <div class="form-group row">
-        <label for="subject">Предмет</label>
+        <label for="date">Date</label>
         <div class="col-sm-10">
-            <select th:field="*{subject}" id="subject" required>
-                <option th:each="subject : ${subjects}" th:value="${subject.id}" th:utext="${subject.name}"></option>
+            <input type="date" th:field="*{date}" id="date" placeholder="MM/dd/yyyy" required>
+        </div>
+        <label for="conducted">Conducted</label>
+        <div class="col-sm-10">
+            <select th:field="*{conducted}" id="conducted" required>
+                <option th:value="false">Не проведено</option>
+                <option th:value="true">Проведено</option>
             </select>
         </div>
-        <label for="teacher">Викладач</label>
+        <label for="schedule">Schedule</label>
         <div class="col-sm-10">
-            <select th:field="*{teacher}" id="teacher" required>
-                <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:utext="${teacher.name}"></option>
+            <select th:field="*{schedule}" id="schedule" required>
+                <option th:value="${schedule.id}"
+                        th:utext="${schedule?.teaching?.subject.name} + ' ' + ${schedule?.teaching?.teacher?.name}">
+
+                </option >
             </select>
         </div>
         <div class="col-sm-10" style="margin-top: 10px">
-            <input type="submit" value="Додати запис">
+            <input type="submit" value="Add entry">
         </div>
     </div>
 </form>

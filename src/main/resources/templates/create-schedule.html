@@ -10,48 +10,7 @@
     <title>create-teaching</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">University</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto" style="margin-right: auto">
-            <li class="nav-item ">
-                <a class="nav-link" href="/">Home </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/input">Title</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Tables
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/ui/academworks/get/all">Academic works </a>
-                    <a class="dropdown-item" href="/ui/assignment/get/all">Assignment </a>
-                    <a class="dropdown-item" href="/ui/curriculums/get/all">Curricula </a>
-                    <a class="dropdown-item" href="/ui/departments/get/all">Departments </a>
-                    <a class="dropdown-item" href="/ui/examination/get/all">Examination </a>
-                    <a class="dropdown-item" href="/ui/faculties/get/all">Faculty </a>
-                    <a class="dropdown-item" href="/ui/gradworks/get/all">Graduate works </a>
-                    <a class="dropdown-item" href="/ui/groups/get/all">Groups </a>
-                    <a class="dropdown-item" href="/ui/specs/get/all">Specializations </a>
-                    <a class="dropdown-item" href="/ui/students/get/all">Students</a>
-                    <a class="dropdown-item" href="/ui/subjects/get/all">Subjects </a>
-                    <a class="dropdown-item" href="/ui/teachers/get/all">Teachers </a>
-                    <a class="dropdown-item active" href="/ui/teaching/get/all">Teaching </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ui/query">Queries</a>
-            </li>
-        </ul>
-        <form class="form-inline" th:if="${#httpServletRequest.remoteUser != null}" th:action="@{/logout}" method="post">
-            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Log out</button>
-        </form>
-    </div>
-</nav>
+<div th:replace="navbar :: navbar"></div>
 
 <form action="#" th:action="@{/ui/schedule/create}" th:object="${schedule}" method="post">
     <div class="form-group row">

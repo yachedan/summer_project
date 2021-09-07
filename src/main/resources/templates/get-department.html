@@ -9,65 +9,22 @@
     <title>GetAll</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">University</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto" style="margin-right: auto">
-            <li class="nav-item ">
-                <a class="nav-link" href="/">Home </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/input">Title</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Tables
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/ui/academworks/get/all">Academic works </a>
-                    <a class="dropdown-item" href="/ui/assignment/get/all">Assignment </a>
-                    <a class="dropdown-item" href="/ui/curriculums/get/all">Curricula </a>
-                    <a class="dropdown-item active" href="/ui/departments/get/all">Departments </a>
-                    <a class="dropdown-item" href="/ui/examination/get/all">Examination </a>
-                    <a class="dropdown-item" href="/ui/faculties/get/all">Faculty </a>
-                    <a class="dropdown-item" href="/ui/gradworks/get/all">Graduate works </a>
-                    <a class="dropdown-item" href="/ui/groups/get/all">Groups </a>
-                    <a class="dropdown-item" href="/ui/specs/get/all">Specializations </a>
-                    <a class="dropdown-item" href="/ui/students/get/all">Students</a>
-                    <a class="dropdown-item" href="/ui/subjects/get/all">Subjects </a>
-                    <a class="dropdown-item" href="/ui/teachers/get/all">Teachers </a>
-                    <a class="dropdown-item" href="/ui/teaching/get/all">Teaching </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ui/query">Queries</a>
-            </li>
-        </ul>
-        <form class="form-inline" th:if="${#httpServletRequest.remoteUser != null}" th:action="@{/logout}" method="post">
-            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Log out</button>
-        </form>
-    </div>
-</nav>
+<div th:replace="navbar :: navbar"></div>
 
 <div th:switch="${departments}">
-    <h2 th:case="null">No departments yet!</h2>
+    <h2 th:case="null">Кафедри відсутні!</h2>
     <div th:case="*">
-        <h2>Departments</h2>
+        <h2 class="display-5">Кафедри</h2>
         <table class="table">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Short name</th>
-                <th scope="col">Head of department</th>
-                <th scope="col">Faculty</th>
-                <th scope="col">created_at</th>
-                <th scope="col">modified_at</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Назва</th>
+                <th scope="col">Коротка назва</th>
+                <th scope="col">Завідувач кафедри</th>
+                <th scope="col">Факультет</th>
+                <th scope="col">Редагувати</th>
+                <th scope="col">Видалити</th>
             </tr>
             </thead>
             <tbody>
@@ -77,16 +34,27 @@
                 <td th:text="${department.shortName}"></td>
                 <td th:text="${department.head}"></td>
                 <td th:text="${department?.faculty?.shortName}"></td>
-                <td th:text="${department.createdAt}"></td>
-                <td th:text="${department.modifiedAt}"></td>
-                <td><a disabled="true" th:href="@{/ui/department/update/{id}(id=${department.id})}">Edit</a></td>
+                <td><a disabled="true" th:href="@{/ui/department/update/{id}(id=${department.id})}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                    </svg>
+                </a></td>
                 <td><a th:href="@{/ui/department/delete/{id}(id=${department.id})}"
-                       th:onclick="return confirm('Are you sure?')">Delete</a></td>
+                       th:onclick="return confirm('Are you sure?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/ui/department/signup">Add a new department</a></p>
+    <p><a href="/ui/department/signup">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+        Додати кафедру</a></p>
     <nav aria-label="Pagination" th:if="${departments.totalPages gt 0}">
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${departments.number eq 0} ? 'disabled'">
